@@ -11,11 +11,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # add lib, generate executable
 add_subdirectory(lib/glfw)
+add_subdirectory(lib/webgpu)
+add_subdirectory(lib/glfw3webgpu)
 add_executable(App src/main.cpp)
 
 # linking
-target_link_libraries(App PRIVATE glfw)
+target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu)
 set_target_properties(App PROPERTIES CXX_STANDARD 17)
+target_treat_all_warning_as_errors(App)
+target_copy_webgpu_binaries(App) # provided by webgpu
 
 # move compile_commands.json to project root
 add_custom_target(
