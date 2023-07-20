@@ -6,6 +6,11 @@
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/webgpu-utils.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/webgpu-utils.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/src/webgpu-utils.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
   "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/context.c",
   "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/context.c"
 },

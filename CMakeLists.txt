@@ -5,7 +5,7 @@ project(
   VERSION 0.1.0
   LANGUAGES CXX C)
 
-# setup 
+# setup
 include(utils.cmake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -13,7 +13,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/webgpu)
 add_subdirectory(lib/glfw3webgpu)
-add_executable(App src/main.cpp)
+add_executable(App src/main.cpp src/webgpu-utils.cpp include/webgpu-utils.h)
 
 # linking
 target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu)
