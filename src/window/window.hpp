@@ -1,7 +1,5 @@
 #pragma once
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <string>
+#include <common.h>
 
 class Window {
 public:

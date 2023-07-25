@@ -25,10 +25,7 @@
  */
 
 #include "../headers/webgpu-utils.h"
-
-#include <iostream>
-#include <vector>
-#include <cassert>
+#include <common.h>
 
 WGPUAdapter requestAdapter(WGPUInstance instance, WGPURequestAdapterOptions const * options) {
 	// A simple structure holding the local information shared with the
