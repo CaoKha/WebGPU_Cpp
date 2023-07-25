@@ -24,7 +24,7 @@
  * SOFTWARE.
  */
 
-#include "../include/webgpu-utils.h"
+#include "../headers/webgpu-utils.h"
 
 #include <iostream>
 #include <vector>
