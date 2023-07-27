@@ -25,14 +25,7 @@
  */
 
 #include "webgpu-utils.h"
-
-#include <glfw3webgpu.h>
-#include <GLFW/glfw3.h>
-
-#include <webgpu/webgpu.h>
-
-#include <iostream>
-#include <cassert>
+#include <common.h>
 
 int main (int, char**) {
 	WGPUInstanceDescriptor desc = {};
