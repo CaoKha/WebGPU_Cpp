@@ -1,20 +1,20 @@
 /**
  * This file is part of the "Learn WebGPU for C++" book.
  *   https://eliemichel.github.io/LearnWebGPU
- *
+ * 
  * MIT License
  * Copyright (c) 2022-2023 Elie Michel
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,59 +24,161 @@
  * SOFTWARE.
  */
 
-#include "adapter/adapter.hpp"
-#include "command/command.hpp"
-#include "device/device.hpp"
-#include "instance/instance.hpp"
-#include "queue/queue.hpp"
-#include "renderpass/renderpass.hpp"
-#include "surface/surface.hpp"
-#include "swapchain/swapchain.hpp"
-#include "window/window.hpp"
-#include <common.h>
-#include <webgpu-utils.h>
+#include "webgpu-utils.h"
 
-#define UNUSED(x) (void)x;
+#include <glfw3webgpu.h>
+#include <GLFW/glfw3.h>
 
-int main(int, char **) {
-  // Initialisation
-  Instance instance;
-  Window window(640, 480, "Learn WebGPU");
-  Surface surface(instance.wgpu_instance, window.glfw_window);
-  Adapter adapter(instance.wgpu_instance, window.glfw_window);
-  Device device(adapter.wgpu_adapter);
-  device.runCheck(); // inspect device before continuing
-  Queue queue(device.wgpu_device);
-  SwapChain swapchain(surface.wgpu_surface, adapter.wgpu_adapter,
-                      device.wgpu_device);
+#include <webgpu/webgpu.h>
 
-  while (!glfwWindowShouldClose(window.glfw_window)) {
-    glfwPollEvents();
-    WGPUTextureView nextTexture =
-        wgpuSwapChainGetCurrentTextureView(swapchain.wgpu_swapchain);
-    if (!nextTexture) {
-      std::cerr << "Cannot acquire next swap chain texture" << std::endl;
-      break;
-    }
-    // std::cout << "nextTexture: " << nextTexture << std::endl;
+#include <iostream>
+#include <cassert>
 
-    Command::Encoder cmd_encoder(device.wgpu_device);
+int main (int, char**) {
+	WGPUInstanceDescriptor desc = {};
+	desc.nextInChain = nullptr;
+	WGPUInstance instance = wgpuCreateInstance(&desc);
+	if (!instance) {
+		std::cerr << "Could not initialize WebGPU!" << std::endl;
+		return 1;
+	}
 
-    RenderPass renderpass(cmd_encoder.wgpu_cmd_encoder, nextTexture);
-    renderpass.endRenderPassEncoder();
-    renderpass.releaseView(nextTexture);
+	if (!glfwInit()) {
+		std::cerr << "Could not initialize GLFW!" << std::endl;
+		return 1;
+	}
 
-    Command::Buffer cmd_buffer;
-    cmd_buffer.setupCommandBufferDescriptor();
-    cmd_buffer.buildFinishEncoderCmd(cmd_encoder.wgpu_cmd_encoder);
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	// glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	GLFWwindow* window = glfwCreateWindow(640, 480, "Learn WebGPU", NULL, NULL);
+	if (!window) {
+		std::cerr << "Could not open window!" << std::endl;
+		return 1;
+	}
 
-    wgpuQueueSubmit(queue.wgpu_queue, 1, &cmd_buffer.wgpu_cmd_buffer);
+	std::cout << "Requesting adapter..." << std::endl;
+	WGPUSurface surface = glfwGetWGPUSurface(instance, window);
+	WGPURequestAdapterOptions adapterOpts = {};
+	adapterOpts.nextInChain = nullptr;
+	adapterOpts.compatibleSurface = surface;
+	WGPUAdapter adapter = requestAdapter(instance, &adapterOpts);
+	std::cout << "Got adapter: " << adapter << std::endl;
 
-    // We can tell the swap chain to present the next texture.
-    wgpuSwapChainPresent(swapchain.wgpu_swapchain);
-  }
+	std::cout << "Requesting device..." << std::endl;
+    WGPUDeviceDescriptor deviceDesc = {};
+	deviceDesc.nextInChain = nullptr;
+	deviceDesc.label = "My Device";
+	deviceDesc.requiredFeaturesCount = 0;
+	deviceDesc.requiredLimits = nullptr;
+	deviceDesc.defaultQueue.nextInChain = nullptr;
+	deviceDesc.defaultQueue.label = "The default queue";
+	WGPUDevice device = requestDevice(adapter, &deviceDesc);
+	std::cout << "Got device: " << device << std::endl;
 
-  glfwTerminate();
+	WGPUQueue queue = wgpuDeviceGetQueue(device);
 
-  return 0;
+	auto onDeviceError = [](WGPUErrorType type, char const* message, void* /* pUserData */) {
+		std::cout << "Uncaptured device error: type " << type;
+		if (message) std::cout << " (" << message << ")";
+		std::cout << std::endl;
+	};
+	wgpuDeviceSetUncapturedErrorCallback(device, onDeviceError, nullptr /* pUserData */);
+
+	std::cout << "Creating swapchain device..." << std::endl;
+
+	// We describe the Swap Chain that is used to present rendered textures on
+	// screen. Note that it is specific to a given window size so don't resize.
+	WGPUSwapChainDescriptor swapChainDesc = {};
+	swapChainDesc.width = 640;
+	swapChainDesc.height = 480;
+
+	// Like buffers, textures are allocated for a specific usage. In our case,
+	// we will use them as the target of a Render Pass so it needs to be created
+	// with the `RenderAttachment` usage flag.
+	swapChainDesc.usage = WGPUTextureUsage_RenderAttachment;
+
+	// The swap chain textures use the color format suggested by the target surface.
+#ifdef WEBGPU_BACKEND_WGPU
+    WGPUTextureFormat swapChainFormat = wgpuSurfaceGetPreferredFormat(surface, adapter);
+#else
+    WGPUTextureFormat swapChainFormat = WGPUTextureFormat_BGRA8Unorm;
+#endif
+	swapChainDesc.format = swapChainFormat;
+	
+	// FIFO stands for "first in, first out", meaning that the presented
+	// texture is always the oldest one, like a regular queue.
+	swapChainDesc.presentMode = WGPUPresentMode_Fifo;
+
+	// Finally create the Swap Chain
+	WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &swapChainDesc);
+
+	std::cout << "Swapchain: " << swapChain << std::endl;
+
+	while (!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+
+		// Get the texture where to draw the next frame
+		WGPUTextureView nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);
+		// Getting the texture may fail, in particular if the window has been resized
+		// and thus the target surface changed.
+		if (!nextTexture) {
+			std::cerr << "Cannot acquire next swap chain texture" << std::endl;
+			break;
+		}
+		// std::cout << "nextTexture: " << nextTexture << std::endl;
+
+		WGPUCommandEncoderDescriptor commandEncoderDesc = {};
+		commandEncoderDesc.nextInChain = nullptr;
+		commandEncoderDesc.label = "Command Encoder";
+		WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(device, &commandEncoderDesc);
+		
+		// Describe a render pass, which targets the texture view
+		WGPURenderPassDescriptor renderPassDesc = {};
+		
+		WGPURenderPassColorAttachment renderPassColorAttachment = {};
+		// The attachment is tighed to the view returned by the swap chain, so that
+		// the render pass draws directly on screen.
+		renderPassColorAttachment.view = nextTexture;
+		// Not relevant here because we do not use multi-sampling
+		renderPassColorAttachment.resolveTarget = nullptr;
+		renderPassColorAttachment.loadOp = WGPULoadOp_Clear;
+		renderPassColorAttachment.storeOp = WGPUStoreOp_Store;
+		renderPassColorAttachment.clearValue = WGPUColor{ 0.9, 0.1, 0.2, 1.0 };
+		renderPassDesc.colorAttachmentCount = 1;
+		renderPassDesc.colorAttachments = &renderPassColorAttachment;
+
+		// No depth buffer for now
+		renderPassDesc.depthStencilAttachment = nullptr;
+
+		// We do not use timers for now neither
+		renderPassDesc.timestampWriteCount = 0;
+		renderPassDesc.timestampWrites = nullptr;
+
+		renderPassDesc.nextInChain = nullptr;
+
+		// Create a render pass. We end it immediately because we use its built-in
+		// mechanism for clearing the screen when it begins (see descriptor).
+		WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &renderPassDesc);
+		wgpuRenderPassEncoderEnd(renderPass);
+
+		wgpuTextureViewRelease(nextTexture);
+
+		WGPUCommandBufferDescriptor cmdBufferDescriptor = {};
+		cmdBufferDescriptor.nextInChain = nullptr;
+		cmdBufferDescriptor.label = "Command buffer";
+		WGPUCommandBuffer command = wgpuCommandEncoderFinish(encoder, &cmdBufferDescriptor);
+		wgpuQueueSubmit(queue, 1, &command);
+
+		// We can tell the swap chain to present the next texture.
+		wgpuSwapChainPresent(swapChain);
+	}
+
+	wgpuSwapChainRelease(swapChain);
+	wgpuDeviceRelease(device);
+	wgpuAdapterRelease(adapter);
+	wgpuInstanceRelease(instance);
+	glfwDestroyWindow(window);
+	glfwTerminate();
+
+	return 0;
 }

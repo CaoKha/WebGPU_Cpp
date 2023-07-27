@@ -13,14 +13,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/webgpu)
 add_subdirectory(lib/glfw3webgpu)
-add_executable(App 
-  src/main.cpp 
-  src/webgpu-utils.cpp
-  src/command/command.cpp
-  src/device/device.cpp
-  src/renderpass/renderpass.cpp
-  src/swapchain/swapchain.cpp
-  )
+add_executable(App src/main.cpp src/webgpu-utils.cpp)
 
 # linking
 target_include_directories(App PRIVATE headers)
