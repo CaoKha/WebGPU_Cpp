@@ -1,6 +1,31 @@
 [
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_demo.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_demo.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_demo.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_draw.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_draw.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_draw.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_widgets.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_widgets.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_widgets.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_tables.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_tables.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_tables.cpp"
+},
+{
+  "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
   "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/headers -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/main.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/main.cpp",
   "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/src/main.cpp"
 },
