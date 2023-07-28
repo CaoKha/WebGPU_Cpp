@@ -17,11 +17,15 @@ set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui_tables.cpp
     # Add any other imgui source files here if needed
 )
+# We add an option to enable different settings when developping the app than
+# when distributing it.
+option(DEV_MODE ON)
 
 # add lib, generate executable
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/webgpu)
 add_subdirectory(vendor/glfw3webgpu)
+add_subdirectory(vendor/magic_enum)
 
 include_directories(vendor/imgui)
 
@@ -32,12 +36,25 @@ add_library(imgui ${IMGUI_SOURCES})
 add_executable(App src/main.cpp src/webgpu-utils.cpp)
 
 target_include_directories(App PRIVATE headers imgui)
-target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu)
+target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu magic_enum)
 set_target_properties(
   App PROPERTIES CXX_STANDARD 17 VS_DEBUGGER_ENVIRONMENT
                                  "DAWN_DEBUG_BREAK_ON_ERROR=1")
 target_treat_all_warning_as_errors(App)
 target_copy_webgpu_binaries(App) # provided by webgpu
+
+# load file from folders
+if(DEV_MODE)
+  # In dev mode, we load resources from the source tree, so that when we
+  # dynamically edit resources (like shaders), these are correctly versionned.
+  target_compile_definitions(
+    App PRIVATE RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources")
+else()
+  # In release mode, we just load resources relatively to wherever the
+  # executable is launched from, so that the binary is portable
+  target_compile_definitions(App PRIVATE RESOURCE_DIR="./resources")
+endif()
+
 
 # move compile_commands.json to project root
 add_custom_target(
