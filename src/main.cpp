@@ -25,8 +25,11 @@
  */
 
 #define WEBGPU_CPP_IMPLEMENTATION
-#include "webgpu-utils.h"
 #include <common.h>
+#include <GLFW/glfw3.h>
+#include <glfw3webgpu.h>
+#include "webgpu/webgpu.hpp"
+#include "webgpu-utils.h"
 
 int main(int, char **) {
   wgpu::Instance instance = wgpu::createInstance(wgpu::InstanceDescriptor{});

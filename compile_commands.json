@@ -1,122 +1,122 @@
 [
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui.cpp",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui.cpp"
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -g -o CMakeFiles/imgui.dir/vendor/imgui/imgui.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_demo.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_demo.cpp",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_demo.cpp"
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -g -o CMakeFiles/imgui.dir/vendor/imgui/imgui_demo.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_demo.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_demo.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_draw.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_draw.cpp",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_draw.cpp"
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -g -o CMakeFiles/imgui.dir/vendor/imgui/imgui_draw.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_draw.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_draw.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_widgets.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_widgets.cpp",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_widgets.cpp"
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -g -o CMakeFiles/imgui.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_widgets.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_widgets.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp -g -o CMakeFiles/imgui.dir/lib/imgui/imgui_tables.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_tables.cpp",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/imgui/imgui_tables.cpp"
+  "command": "/usr/bin/clang++ -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -g -o CMakeFiles/imgui.dir/vendor/imgui/imgui_tables.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_tables.cpp",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui/imgui_tables.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/headers -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/main.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/main.cpp",
+  "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -I/home/nck13/Documents/dev/github/WebGPU_Cpp/headers -I/home/nck13/Documents/dev/github/WebGPU_Cpp/imgui -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/main.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/main.cpp",
   "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/src/main.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/headers -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/webgpu-utils.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/webgpu-utils.cpp",
+  "command": "/usr/bin/clang++ -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/imgui -I/home/nck13/Documents/dev/github/WebGPU_Cpp/headers -I/home/nck13/Documents/dev/github/WebGPU_Cpp/imgui -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw3webgpu/. -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -Wall -Wextra -pedantic -std=gnu++17 -o CMakeFiles/App.dir/src/webgpu-utils.cpp.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/src/webgpu-utils.cpp",
   "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/src/webgpu-utils.cpp"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/context.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/context.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/context.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/context.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/init.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/init.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/init.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/init.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/init.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/init.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/input.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/input.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/input.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/input.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/input.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/input.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/monitor.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/monitor.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/monitor.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/monitor.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/monitor.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/monitor.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/vulkan.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/vulkan.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/vulkan.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/vulkan.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/window.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/window.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/window.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/window.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/window.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/window.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_init.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_init.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_init.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_init.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_monitor.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_monitor.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_monitor.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_monitor.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_window.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/x11_window.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_window.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/x11_window.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/xkb_unicode.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/xkb_unicode.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/xkb_unicode.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/xkb_unicode.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/posix_time.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/posix_time.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/posix_time.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/posix_time.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/posix_thread.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/posix_thread.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/posix_thread.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/posix_thread.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/glx_context.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/glx_context.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/glx_context.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/glx_context.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/egl_context.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/egl_context.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/egl_context.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/egl_context.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/osmesa_context.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/osmesa_context.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/osmesa_context.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/osmesa_context.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/lib/glfw/src -g -fPIC -Wall -std=gnu99 -o lib/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/linux_joystick.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/src/linux_joystick.c"
+  "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src -I/home/nck13/Documents/dev/github/WebGPU_Cpp/build/vendor/glfw/src -g -fPIC -Wall -std=gnu99 -o vendor/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/linux_joystick.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/src/linux_joystick.c"
 },
 {
   "directory": "/home/nck13/Documents/dev/github/WebGPU_Cpp/build",
-  "command": "/usr/bin/clang -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/. -I/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw/include -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -o lib/glfw3webgpu/CMakeFiles/glfw3webgpu.dir/glfw3webgpu.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/glfw3webgpu.c",
-  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/lib/glfw3webgpu/glfw3webgpu.c"
+  "command": "/usr/bin/clang -DWEBGPU_BACKEND_WGPU -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw3webgpu/. -I/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw/include -isystem /home/nck13/Documents/dev/github/WebGPU_Cpp/build/_deps/webgpu-backend-wgpu-src/include -g -o vendor/glfw3webgpu/CMakeFiles/glfw3webgpu.dir/glfw3webgpu.c.o -c /home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw3webgpu/glfw3webgpu.c",
+  "file": "/home/nck13/Documents/dev/github/WebGPU_Cpp/vendor/glfw3webgpu/glfw3webgpu.c"
 }
 ]
