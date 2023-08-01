@@ -25,6 +25,7 @@
  */
 
 // An optional library that makes displaying enum values much easier
+#include <cstddef>
 #include <magic_enum.hpp>
 
 #include <GLFW/glfw3.h>
@@ -32,17 +33,36 @@
 #include <webgpu/webgpu.h>
 
 #define WEBGPU_CPP_IMPLEMENTATION
+#include <common.h>
 #include <webgpu/webgpu.hpp>
-
-#include <cassert>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
 
 using namespace wgpu;
 namespace fs = std::filesystem;
+
+/**
+ * The same structure as in the shader
+ */
+struct MyUniforms {
+  // offset = 0 * sizeof(vec4f)
+  std::array<float, 4> color;
+  // offset = 4 * sizeof(f32) = 16
+  float time;
+  float _pad[3]; // we don't use this array but we need it cuz the constraint of
+                 // uniform layout
+  // time -> sizeof(float) = 4 bytes -> need an array of 3 floats (size = 3*4 =
+  // 12 bytes) in order to make the  total size of `MyUniforms` struct = (16 + 4
+  // + 12) % 16 == 0
+};
+//  Have the compiler check byte alignment
+static_assert(sizeof(MyUniforms) % 16 == 0);
+
+/**
+ * Round 'value' up to the next multiplier of 'step'.
+ */
+uint32_t ceilToNextMultiple(uint32_t value, uint32_t step) {
+  uint32_t divide_and_ceil = value / step + (value % step == 0 ? 0 : 1);
+  return step * divide_and_ceil;
+}
 
 ShaderModule loadShaderModule(const fs::path &path, Device device);
 bool loadGeometry(const fs::path &path, std::vector<float> &pointData,
@@ -100,6 +120,7 @@ int main(int, char **) {
   requiredLimits.limits.maxUniformBuffersPerShaderStage = 1;
   // Uniform structs have a size of maximum 16 float
   requiredLimits.limits.maxUniformBufferBindingSize = 16 * 4;
+  requiredLimits.limits.maxDynamicUniformBuffersPerPipelineLayout = 1;
 
   DeviceDescriptor deviceDesc;
   deviceDesc.label = "My Device";
@@ -108,6 +129,11 @@ int main(int, char **) {
   deviceDesc.defaultQueue.label = "The default queue";
   Device device = adapter.requestDevice(deviceDesc);
   std::cout << "Got device: " << device << std::endl;
+
+  // Get device limits
+  SupportedLimits deviceSupportedLimits;
+  device.getLimits(&deviceSupportedLimits);
+  Limits deviceLimits = deviceSupportedLimits.limits;
 
   // Add an error callback for more debug info
   auto h = device.setUncapturedErrorCallback(
@@ -215,9 +241,10 @@ int main(int, char **) {
   // Binding Layout
   BindGroupLayoutEntry bindingLayout = Default;
   bindingLayout.binding = 0;
-  bindingLayout.visibility = ShaderStage::Vertex;
+  bindingLayout.visibility = ShaderStage::Vertex | ShaderStage::Fragment;
   bindingLayout.buffer.type = BufferBindingType::Uniform;
-  bindingLayout.buffer.minBindingSize = sizeof(float);
+  bindingLayout.buffer.minBindingSize = sizeof(MyUniforms);
+  bindingLayout.buffer.hasDynamicOffset = true;
 
   // Bind group Layout
   BindGroupLayoutDescriptor bindGroupLayoutDesc;
@@ -263,20 +290,34 @@ int main(int, char **) {
   Buffer indexBuffer = device.createBuffer(bufferDesc);
   queue.writeBuffer(indexBuffer, 0, indexData.data(), bufferDesc.size);
 
+  uint32_t uniformStride = ceilToNextMultiple(
+      (uint32_t)sizeof(MyUniforms),
+      (uint32_t)deviceLimits.minUniformBufferOffsetAlignment);
+
   // Uniform buffer
-  bufferDesc.size = sizeof(float);
+  bufferDesc.size = uniformStride + sizeof(MyUniforms);
   bufferDesc.usage = BufferUsage::CopyDst | BufferUsage::Uniform;
   bufferDesc.mappedAtCreation = false;
   Buffer uniformBuffer = device.createBuffer(bufferDesc);
-  float currentTime = 1.0f;
-  queue.writeBuffer(uniformBuffer, 0, &currentTime, sizeof(float));
+
+  // Upload initial value of the uniforms
+  MyUniforms uniforms;
+  uniforms.time = 1.0f;
+  uniforms.color = {0.0f, 1.0f, 0.4f, 1.0f};
+  queue.writeBuffer(uniformBuffer, 0, &uniforms, sizeof(MyUniforms));
+
+  // Upload second value
+  uniforms.time = -1.0f;
+  uniforms.color = {1.0f, 1.0f, 1.0f, 0.7f};
+  queue.writeBuffer(uniformBuffer, uniformStride, &uniforms,
+                    sizeof(MyUniforms));
 
   // Create a binding
   BindGroupEntry binding;
   binding.binding = 0;
   binding.buffer = uniformBuffer;
   binding.offset = 0;
-  binding.size = sizeof(float);
+  binding.size = sizeof(MyUniforms);
 
   // A bindgroup contains one or multiple bindings
   BindGroupDescriptor bindGroupDesc;
@@ -289,8 +330,24 @@ int main(int, char **) {
     glfwPollEvents();
 
     // Update uniform buffer
-    float t = static_cast<float>(glfwGetTime()); // glfwGetTime returns a double
-    queue.writeBuffer(uniformBuffer, 0, &t, sizeof(float));
+    uniforms.time =
+        static_cast<float>(3.0 * glfwGetTime()); // glfwGetTime returns a double
+    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time), &uniforms.time,
+                      sizeof(MyUniforms::time));
+
+    uniforms.color = {1.0f, 0.5f, 0.0f, 1.0f};
+    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, color),
+                      &uniforms.color, sizeof(MyUniforms::color));
+
+    uniforms.time = static_cast<float>(3.0 * glfwGetTime() +
+                                       1.0); // glfwGetTime returns a double
+    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time) + 32,
+                      &uniforms.time, sizeof(MyUniforms::time));
+
+    uniforms.color = {0.0f, 1.0f, 0.5f, 1.0f};
+    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, color) + 32,
+                      &uniforms.color, sizeof(MyUniforms::color));
+
     TextureView nextTexture = swapChain.getCurrentTextureView();
     if (!nextTexture) {
       std::cerr << "Cannot acquire next swap chain texture" << std::endl;
@@ -327,10 +384,18 @@ int main(int, char **) {
     renderPass.setIndexBuffer(indexBuffer, IndexFormat::Uint16, 0,
                               indexData.size() * sizeof(uint16_t));
 
+    uint32_t dynamicOffset = 0;
+
     // set binding group
-    renderPass.setBindGroup(0, bindGroup, 0, nullptr);
+    dynamicOffset = 0 * uniformStride;
+    renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
     // Replace `draw()` with `drawIndexed()` and `vertexCount` with `indexCount`
     // The extra argument is an offset within the index buffer.
+    renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
+
+    // Set another binding group
+    dynamicOffset = 1 * uniformStride;
+    renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
     renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
 
     renderPass.end();

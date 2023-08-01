@@ -1,5 +1,9 @@
-@group(0) @binding(0) var<uniform> uTime: f32;
+struct MyUniforms {
+  color: vec4f,
+  time: f32
+}
 
+@group(0) @binding(0) var<uniform> uMyUniforms: MyUniforms;
 
 struct VertexInput {
 	@location(0) position: vec2f,
@@ -17,8 +21,8 @@ fn vs_main(in: VertexInput) -> VertexOutput {
 	let ratio = 640.0 / 480.0;
 	// Offset the shape (before applying the ratio!)
 	var offset = vec2f(-0.6875, -0.463);
-  var yTime = 2.0 * uTime;
-  offset += 0.3 * vec2f(sin(uTime), sin(yTime));
+  var yTime = uMyUniforms.time * 2.0;
+  offset += 0.3 * vec2f(sin(uMyUniforms.time), sin(yTime));
 	out.position = vec4f(in.position.x + offset.x, (in.position.y + offset.y) * ratio, 0.0, 1.0);
 	out.color = in.color;
 	return out;
@@ -26,7 +30,8 @@ fn vs_main(in: VertexInput) -> VertexOutput {
 
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4f {
+  let color = in.color * uMyUniforms.color.rgb;
 	// We apply a gamma-correction to the color
-	let corrected_color = pow(in.color, vec3f(2.2));
-	return vec4f(corrected_color, 1.0);
+	let corrected_color = pow(color, vec3f(2.2));
+	return vec4f(corrected_color, uMyUniforms.color.a);
 }
