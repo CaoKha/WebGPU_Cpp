@@ -19,7 +19,7 @@ set(IMGUI_SOURCES
 )
 # We add an option to enable different settings when developping the app than
 # when distributing it.
-option(DEV_MODE ON)
+option(DEV_MODE "Set up development helper settings" ON)
 
 # add lib, generate executable
 add_subdirectory(vendor/glfw)

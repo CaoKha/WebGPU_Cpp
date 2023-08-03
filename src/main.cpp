@@ -31,9 +31,9 @@
 #include <GLFW/glfw3.h>
 #include <glfw3webgpu.h>
 #include <webgpu/webgpu.h>
+#include <common.h>
 
 #define WEBGPU_CPP_IMPLEMENTATION
-#include <common.h>
 #include <webgpu/webgpu.hpp>
 
 using namespace wgpu;
@@ -66,7 +66,7 @@ uint32_t ceilToNextMultiple(uint32_t value, uint32_t step) {
 
 ShaderModule loadShaderModule(const fs::path &path, Device device);
 bool loadGeometry(const fs::path &path, std::vector<float> &pointData,
-                  std::vector<uint16_t> &indexData);
+                  std::vector<uint16_t> &indexData, int dimensions);
 
 int main(int, char **) {
   // Instance
@@ -110,7 +110,7 @@ int main(int, char **) {
   requiredLimits.limits.maxVertexAttributes = 2;
   requiredLimits.limits.maxVertexBuffers = 1;
   requiredLimits.limits.maxBufferSize = 15 * 5 * sizeof(float);
-  requiredLimits.limits.maxVertexBufferArrayStride = 5 * sizeof(float);
+  requiredLimits.limits.maxVertexBufferArrayStride = 6 * sizeof(float);
   requiredLimits.limits.minStorageBufferOffsetAlignment =
       supportedLimits.limits.minStorageBufferOffsetAlignment;
   requiredLimits.limits.minUniformBufferOffsetAlignment =
@@ -121,6 +121,9 @@ int main(int, char **) {
   // Uniform structs have a size of maximum 16 float
   requiredLimits.limits.maxUniformBufferBindingSize = 16 * 4;
   requiredLimits.limits.maxDynamicUniformBuffersPerPipelineLayout = 1;
+  requiredLimits.limits.maxTextureDimension1D = 480;
+  requiredLimits.limits.maxTextureDimension2D = 640;
+  requiredLimits.limits.maxTextureArrayLayers = 1;
 
   DeviceDescriptor deviceDesc;
   deviceDesc.label = "My Device";
@@ -182,18 +185,18 @@ int main(int, char **) {
 
   // Position attribute
   vertexAttribs[0].shaderLocation = 0;
-  vertexAttribs[0].format = VertexFormat::Float32x2;
+  vertexAttribs[0].format = VertexFormat::Float32x3;
   vertexAttribs[0].offset = 0;
 
   // Color attribute
   vertexAttribs[1].shaderLocation = 1;
   vertexAttribs[1].format = VertexFormat::Float32x3;
-  vertexAttribs[1].offset = 2 * sizeof(float);
+  vertexAttribs[1].offset = 3 * sizeof(float);
 
   VertexBufferLayout vertexBufferLayout;
   vertexBufferLayout.attributeCount = (uint32_t)vertexAttribs.size();
   vertexBufferLayout.attributes = vertexAttribs.data();
-  vertexBufferLayout.arrayStride = 5 * sizeof(float);
+  vertexBufferLayout.arrayStride = 6 * sizeof(float);
   vertexBufferLayout.stepMode = VertexStepMode::Vertex;
 
   pipelineDesc.vertex.bufferCount = 1;
@@ -232,7 +235,22 @@ int main(int, char **) {
   fragmentState.targetCount = 1;
   fragmentState.targets = &colorTarget;
 
-  pipelineDesc.depthStencil = nullptr;
+  // We setup a depth buffer state for the render pipeline
+  DepthStencilState depthStencilState = Default;
+  // Keep a fragment only if its depth is lower than the previously blended one
+  depthStencilState.depthCompare = CompareFunction::Less;
+  // Each time a fragment is blended into the target, we update the value of
+  // Z-buffer
+  depthStencilState.depthWriteEnabled = true;
+  // Store the format in a variable as later parts of the code depend on it
+  TextureFormat depthTextureFormat = TextureFormat::Depth24Plus;
+  depthStencilState.format = depthTextureFormat;
+  // Deactivate the stencil alltogether, never read or write to the stencil
+  // buffer
+  depthStencilState.stencilReadMask = 0;
+  depthStencilState.stencilWriteMask = 0;
+
+  pipelineDesc.depthStencil = &depthStencilState;
 
   pipelineDesc.multisample.count = 1;
   pipelineDesc.multisample.mask = ~0u;
@@ -262,10 +280,36 @@ int main(int, char **) {
   RenderPipeline pipeline = device.createRenderPipeline(pipelineDesc);
   std::cout << "Render pipeline: " << pipeline << std::endl;
 
+  // Create the depth texture
+  TextureDescriptor depthTextureDesc;
+  depthTextureDesc.dimension = TextureDimension::_2D;
+  depthTextureDesc.format = depthTextureFormat;
+  depthTextureDesc.mipLevelCount = 1;
+  depthTextureDesc.sampleCount = 1;
+  depthTextureDesc.size = {640, 480, 1};
+  depthTextureDesc.usage = TextureUsage::RenderAttachment;
+  depthTextureDesc.viewFormatCount = 1;
+  depthTextureDesc.viewFormats = (WGPUTextureFormat *)&depthTextureFormat;
+  Texture depthTexture = device.createTexture(depthTextureDesc);
+  std::cout << "Depth Texture: " << depthTexture << std::endl;
+
+  // Create the view of depth texture manipulated by the rasterizer
+  TextureViewDescriptor depthTextureViewDesc;
+  depthTextureViewDesc.aspect = TextureAspect::DepthOnly;
+  depthTextureViewDesc.baseArrayLayer = 0;
+  depthTextureViewDesc.arrayLayerCount = 1;
+  depthTextureViewDesc.baseMipLevel = 0;
+  depthTextureViewDesc.mipLevelCount = 1;
+  depthTextureViewDesc.dimension = TextureViewDimension::_2D;
+  depthTextureViewDesc.format = depthTextureFormat;
+  TextureView depthTextureView = depthTexture.createView(depthTextureViewDesc);
+  std::cout << "Depth texture view: " << depthTextureView << std::endl;
+
   std::vector<float> pointData;
   std::vector<uint16_t> indexData;
 
-  bool success = loadGeometry(RESOURCE_DIR "/webgpu.txt", pointData, indexData);
+  bool success =
+      loadGeometry(RESOURCE_DIR "/pyramid.txt", pointData, indexData, 3);
   if (!success) {
     std::cerr << "Could not load geometry!" << std::endl;
     return 1;
@@ -331,7 +375,7 @@ int main(int, char **) {
 
     // Update uniform buffer
     uniforms.time =
-        static_cast<float>(3.0 * glfwGetTime()); // glfwGetTime returns a double
+        static_cast<float>(2.0 * glfwGetTime()); // glfwGetTime returns a double
     queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time), &uniforms.time,
                       sizeof(MyUniforms::time));
 
@@ -339,13 +383,15 @@ int main(int, char **) {
     queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, color),
                       &uniforms.color, sizeof(MyUniforms::color));
 
-    uniforms.time = static_cast<float>(3.0 * glfwGetTime() +
-                                       1.0); // glfwGetTime returns a double
-    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time) + 32,
+    uniforms.time =
+        static_cast<float>(2.0 * glfwGetTime()); // glfwGetTime returns a double
+    queue.writeBuffer(uniformBuffer,
+                      offsetof(MyUniforms, time) + sizeof(MyUniforms),
                       &uniforms.time, sizeof(MyUniforms::time));
 
     uniforms.color = {0.0f, 1.0f, 0.5f, 1.0f};
-    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, color) + 32,
+    queue.writeBuffer(uniformBuffer,
+                      offsetof(MyUniforms, color) + sizeof(MyUniforms),
                       &uniforms.color, sizeof(MyUniforms::color));
 
     TextureView nextTexture = swapChain.getCurrentTextureView();
@@ -369,7 +415,24 @@ int main(int, char **) {
     renderPassDesc.colorAttachmentCount = 1;
     renderPassDesc.colorAttachments = &renderPassColorAttachment;
 
-    renderPassDesc.depthStencilAttachment = nullptr;
+    RenderPassDepthStencilAttachment depthStencilAttachment;
+    depthStencilAttachment.view = depthTextureView;
+    depthStencilAttachment.depthClearValue = 1.0f;
+    depthStencilAttachment.depthLoadOp = LoadOp::Clear;
+    depthStencilAttachment.depthStoreOp = StoreOp::Store;
+    depthStencilAttachment.depthReadOnly = false;
+
+    depthStencilAttachment.stencilClearValue = 0;
+#ifdef WEBGPU_BACKEND_WGPU
+    depthStencilAttachment.stencilLoadOp = LoadOp::Clear;
+    depthStencilAttachment.stencilStoreOp = StoreOp::Store;
+#else
+    depthStencilAttachment.stencilLoadOp = LoadOp::Undefined;
+    depthStencilAttachment.stencilStoreOp = LoadOp::Undefined;
+#endif
+    depthStencilAttachment.stencilReadOnly = true;
+
+    renderPassDesc.depthStencilAttachment = &depthStencilAttachment;
     renderPassDesc.timestampWriteCount = 0;
     renderPassDesc.timestampWrites = nullptr;
     RenderPassEncoder renderPass = encoder.beginRenderPass(renderPassDesc);
@@ -394,9 +457,9 @@ int main(int, char **) {
     renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
 
     // Set another binding group
-    dynamicOffset = 1 * uniformStride;
-    renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
-    renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
+    // dynamicOffset = 1 * uniformStride;
+    // renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
+    // renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
 
     renderPass.end();
 
@@ -419,6 +482,10 @@ int main(int, char **) {
   vertexBuffer.release();
   indexBuffer.destroy();
   indexBuffer.release();
+
+  depthTextureView.release();
+  depthTexture.destroy();
+  depthTexture.release();
 
   swapChain.release();
   device.release();
@@ -456,7 +523,7 @@ ShaderModule loadShaderModule(const fs::path &path, Device device) {
 }
 
 bool loadGeometry(const fs::path &path, std::vector<float> &pointData,
-                  std::vector<uint16_t> &indexData) {
+                  std::vector<uint16_t> &indexData, int dimensions) {
   std::ifstream file(path);
   if (!file.is_open()) {
     return false;
@@ -486,7 +553,7 @@ bool loadGeometry(const fs::path &path, std::vector<float> &pointData,
     } else if (currentSection == Section::Points) {
       std::istringstream iss(line);
       // Get x, y, r, g, b
-      for (int i = 0; i < 5; ++i) {
+      for (int i = 0; i < dimensions + 3; ++i) {
         iss >> value;
         pointData.push_back(value);
       }
