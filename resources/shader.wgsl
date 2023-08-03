@@ -1,5 +1,6 @@
 struct MyUniforms {
   color: vec4f,
+  offset: vec3f,
   time: f32
 }
 
@@ -20,11 +21,13 @@ fn vs_main(in: VertexInput) -> VertexOutput {
     var out: VertexOutput;
     let ratio = 640.0 / 480.0;
 	// Offset the shape (before applying the ratio!)
-    var offset = vec2f(0.0);
+    var offset = uMyUniforms.offset;
     var angle = uMyUniforms.time;
     let alpha = cos(angle);
     let beta = sin(angle);
-    var position = vec3f(in.position.x, alpha * in.position.y + beta * in.position.z, alpha * in.position.z + beta * in.position.y);
+    var position = in.position;
+    position.x += -0.5;
+    position = vec3f(offset.x + position.x, offset.y + alpha * position.y + beta * position.z, offset.z + alpha * position.z + beta * position.y);
     out.position = vec4f(position.x, position.y * ratio, position.z * 0.5 + 0.5, 1.0);
     out.color = in.color;
     return out;

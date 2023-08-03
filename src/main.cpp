@@ -46,8 +46,9 @@ struct MyUniforms {
   // offset = 0 * sizeof(vec4f)
   std::array<float, 4> color;
   // offset = 4 * sizeof(f32) = 16
+  std::array<float, 3> offset;
   float time;
-  float _pad[3]; // we don't use this array but we need it cuz the constraint of
+  // float _pad[3]; // we don't use this array but we need it cuz the constraint of
                  // uniform layout
   // time -> sizeof(float) = 4 bytes -> need an array of 3 floats (size = 3*4 =
   // 12 bytes) in order to make the  total size of `MyUniforms` struct = (16 + 4
@@ -105,6 +106,7 @@ int main(int, char **) {
                          // `supportedLimits` correspond to `adapter`
 
   // Device
+  // Allocate resources
   std::cout << "Requesting device..." << std::endl;
   RequiredLimits requiredLimits = Default;
   requiredLimits.limits.maxVertexAttributes = 2;
@@ -348,11 +350,13 @@ int main(int, char **) {
   MyUniforms uniforms;
   uniforms.time = 1.0f;
   uniforms.color = {0.0f, 1.0f, 0.4f, 1.0f};
+  uniforms.offset = {0.0f, 0.0f, 0.0f};
   queue.writeBuffer(uniformBuffer, 0, &uniforms, sizeof(MyUniforms));
 
   // Upload second value
   uniforms.time = -1.0f;
   uniforms.color = {1.0f, 1.0f, 1.0f, 0.7f};
+  uniforms.offset = {0.25f, 0.0f, 0.0f};
   queue.writeBuffer(uniformBuffer, uniformStride, &uniforms,
                     sizeof(MyUniforms));
 
@@ -375,7 +379,7 @@ int main(int, char **) {
 
     // Update uniform buffer
     uniforms.time =
-        static_cast<float>(2.0 * glfwGetTime()); // glfwGetTime returns a double
+        static_cast<float>(1.0 * glfwGetTime()); // glfwGetTime returns a double
     queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time), &uniforms.time,
                       sizeof(MyUniforms::time));
 
@@ -384,7 +388,7 @@ int main(int, char **) {
                       &uniforms.color, sizeof(MyUniforms::color));
 
     uniforms.time =
-        static_cast<float>(2.0 * glfwGetTime()); // glfwGetTime returns a double
+        static_cast<float>(3.0 * glfwGetTime()); // glfwGetTime returns a double
     queue.writeBuffer(uniformBuffer,
                       offsetof(MyUniforms, time) + sizeof(MyUniforms),
                       &uniforms.time, sizeof(MyUniforms::time));
@@ -393,6 +397,11 @@ int main(int, char **) {
     queue.writeBuffer(uniformBuffer,
                       offsetof(MyUniforms, color) + sizeof(MyUniforms),
                       &uniforms.color, sizeof(MyUniforms::color));
+
+    uniforms.offset = {1.0f, 0.0f, 0.0f};
+    queue.writeBuffer(uniformBuffer,
+                      offsetof(MyUniforms, offset) + sizeof(MyUniforms),
+                      &uniforms.offset, sizeof(MyUniforms::offset));
 
     TextureView nextTexture = swapChain.getCurrentTextureView();
     if (!nextTexture) {
@@ -457,9 +466,9 @@ int main(int, char **) {
     renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
 
     // Set another binding group
-    // dynamicOffset = 1 * uniformStride;
-    // renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
-    // renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
+    dynamicOffset = 1 * uniformStride;
+    renderPass.setBindGroup(0, bindGroup, 1, &dynamicOffset);
+    renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
 
     renderPass.end();
 
