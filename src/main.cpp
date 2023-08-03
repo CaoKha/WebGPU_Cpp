@@ -354,7 +354,7 @@ int main(int, char **) {
   queue.writeBuffer(uniformBuffer, 0, &uniforms, sizeof(MyUniforms));
 
   // Upload second value
-  uniforms.time = -1.0f;
+  uniforms.time = 1.0f;
   uniforms.color = {1.0f, 1.0f, 1.0f, 0.7f};
   uniforms.offset = {0.25f, 0.0f, 0.0f};
   queue.writeBuffer(uniformBuffer, uniformStride, &uniforms,
@@ -388,7 +388,7 @@ int main(int, char **) {
                       &uniforms.color, sizeof(MyUniforms::color));
 
     uniforms.time =
-        static_cast<float>(3.0 * glfwGetTime()); // glfwGetTime returns a double
+        static_cast<float>(-3.0 * glfwGetTime()); // glfwGetTime returns a double
     queue.writeBuffer(uniformBuffer,
                       offsetof(MyUniforms, time) + sizeof(MyUniforms),
                       &uniforms.time, sizeof(MyUniforms::time));
