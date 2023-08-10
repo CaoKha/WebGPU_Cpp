@@ -26,6 +26,7 @@ add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/webgpu)
 add_subdirectory(vendor/glfw3webgpu)
 add_subdirectory(vendor/magic_enum)
+add_subdirectory(vendor/glm)
 
 include_directories(vendor/imgui)
 
@@ -36,7 +37,7 @@ add_library(imgui ${IMGUI_SOURCES})
 add_executable(App src/main.cpp src/webgpu-utils.cpp)
 
 target_include_directories(App PRIVATE headers imgui)
-target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu magic_enum)
+target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu magic_enum glm)
 set_target_properties(
   App PROPERTIES CXX_STANDARD 17 VS_DEBUGGER_ENVIRONMENT
                                  "DAWN_DEBUG_BREAK_ON_ERROR=1")
