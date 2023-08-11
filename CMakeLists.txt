@@ -34,7 +34,7 @@ include_directories(vendor/imgui)
 add_library(imgui ${IMGUI_SOURCES})
 
 # Set the include directories for the library
-add_executable(App src/main.cpp src/webgpu-utils.cpp)
+add_executable(App src/main.cpp )
 
 target_include_directories(App PRIVATE headers imgui)
 target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu magic_enum glm)

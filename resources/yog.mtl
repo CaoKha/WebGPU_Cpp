@@ -1,0 +1,63 @@
+# Blender 3.6.1 MTL File: 'yog.blend'
+# www.blender.org
+
+newmtl Material.001
+Ns 474.066132
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.573771 0.573771 0.573771
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Material.002
+Ns 467.012299
+Ka 0.893517 0.893517 0.893517
+Kd 0.393114 0.393114 0.393114
+Ks 0.281818 0.281818 0.281818
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd fruits-berries-yogurt-label-template-abstract-vector-dairy-packaging-design-layout-modern-typography-banner-bubbles-hand-215528622.jpg
+
+newmtl Material.004
+Ns 756.758545
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 0.607126 0.557652
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Material.006
+Ns 28.285110
+Ka 1.000000 1.000000 1.000000
+Ks 0.736364 0.736364 0.736364
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd fabric_pattern_05_col_02_2k.jpg
+map_Bump -bm 1.000000 fabric_pattern_05_nor_2k (1).jpg
+
+newmtl fruits-berries-yogurt-label-template-abstract-vector-dairy-pack
+Ns 730.247986
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd fruits-berries-yogurt-label-template-abstract-vector-dairy-packaging-design-layout-modern-typography-banner-bubbles-hand-215528622.jpg
+map_d fruits-berries-yogurt-label-template-abstract-vector-dairy-packaging-design-layout-modern-typography-banner-bubbles-hand-215528622.jpg
