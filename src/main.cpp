@@ -24,6 +24,7 @@
  * SOFTWARE.
  */
 
+#include "glm/ext/matrix_transform.hpp"
 #include <glfw3webgpu.h>
 #include <GLFW/glfw3.h>
 
@@ -134,6 +135,7 @@ int main (int, char**) {
 	requiredLimits.limits.maxTextureDimension2D = 640;
 	requiredLimits.limits.maxTextureArrayLayers = 1;
 	requiredLimits.limits.maxSampledTexturesPerShaderStage = 1;
+  requiredLimits.limits.maxSamplersPerShaderStage = 1;
 
 	DeviceDescriptor deviceDesc;
 	deviceDesc.label = "My Device";
@@ -257,7 +259,7 @@ int main (int, char**) {
 	// Create binding layouts
 
 	// Since we now have 2 bindings, we use a vector to store them
-	std::vector<BindGroupLayoutEntry> bindingLayoutEntries(2, Default);
+	std::vector<BindGroupLayoutEntry> bindingLayoutEntries(3, Default);
 
 	// The uniform buffer binding that we already had
 	BindGroupLayoutEntry& bindingLayout = bindingLayoutEntries[0];
@@ -272,6 +274,12 @@ int main (int, char**) {
 	textureBindingLayout.visibility = ShaderStage::Fragment;
 	textureBindingLayout.texture.sampleType = TextureSampleType::Float;
 	textureBindingLayout.texture.viewDimension = TextureViewDimension::_2D;
+
+  // The textyre sampler binding
+  BindGroupLayoutEntry& samplerBindingLayout = bindingLayoutEntries[2];
+  samplerBindingLayout.binding = 2;
+  samplerBindingLayout.visibility = ShaderStage::Fragment;
+  samplerBindingLayout.sampler.type = SamplerBindingType::Filtering;
 
 	// Create a bind group layout
 	BindGroupLayoutDescriptor bindGroupLayoutDesc{};
@@ -338,6 +346,20 @@ int main (int, char**) {
 	TextureView textureView = texture.createView(textureViewDesc);
 	std::cout << "Texture view: " << textureView << std::endl;
 
+  // Createe a sampler
+  SamplerDescriptor samplerDesc;
+  samplerDesc.addressModeU = AddressMode::Repeat;
+  samplerDesc.addressModeV = AddressMode::Repeat;
+  samplerDesc.addressModeW = AddressMode::ClampToEdge;
+  samplerDesc.magFilter = FilterMode::Linear;
+  samplerDesc.minFilter = FilterMode::Linear;
+  samplerDesc.mipmapFilter =MipmapFilterMode::Linear;
+  samplerDesc.lodMinClamp = 0.0f;
+  samplerDesc.lodMaxClamp = 1.0f;
+  samplerDesc.compare = CompareFunction::Undefined;
+  samplerDesc.maxAnisotropy = 1;
+  Sampler sampler = device.createSampler(samplerDesc);
+
 	// Create image data
 	std::vector<uint8_t> pixels(4 * textureDesc.size.width * textureDesc.size.height);
 	for (uint32_t i = 0; i < textureDesc.size.width; ++i) {
@@ -367,7 +389,7 @@ int main (int, char**) {
 
 	// Load mesh data from OBJ file
 	std::vector<VertexAttributes> vertexData;
-	bool success = loadGeometryFromObj(RESOURCE_DIR "/cube.obj", vertexData);
+	bool success = loadGeometryFromObj(RESOURCE_DIR "/plane.obj", vertexData);
 	if (!success) {
 		std::cerr << "Could not load geometry!" << std::endl;
 		return 1;
@@ -400,7 +422,7 @@ int main (int, char**) {
 	queue.writeBuffer(uniformBuffer, 0, &uniforms, sizeof(MyUniforms));
 
 	// Create a binding
-	std::vector<BindGroupEntry> bindings(2);
+	std::vector<BindGroupEntry> bindings(3);
 
 	bindings[0].binding = 0;
 	bindings[0].buffer = uniformBuffer;
@@ -409,6 +431,9 @@ int main (int, char**) {
 
 	bindings[1].binding = 1;
 	bindings[1].textureView = textureView;
+
+  bindings[2].binding = 2;
+  bindings[2].sampler = sampler;
 
 	BindGroupDescriptor bindGroupDesc;
 	bindGroupDesc.layout = bindGroupLayout;
@@ -422,6 +447,10 @@ int main (int, char**) {
 		// Update uniform buffer
 		uniforms.time = static_cast<float>(glfwGetTime());
 		queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, time), &uniforms.time, sizeof(MyUniforms::time));
+
+    float viewZ = glm::mix(0.0f, 0.25f, cos(2 * PI * uniforms.time / 4)*0.5+0.5);
+    uniforms.viewMatrix = glm::lookAt(vec3(-0.5f, -1.5f,  viewZ + 0.5f),vec3(0.0f),vec3(0,0,1)); 
+    queue.writeBuffer(uniformBuffer, offsetof(MyUniforms, viewMatrix), &uniforms.viewMatrix, sizeof(MyUniforms::viewMatrix));
 		
 		TextureView nextTexture = swapChain.getCurrentTextureView();
 		if (!nextTexture) {

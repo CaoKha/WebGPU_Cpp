@@ -27,23 +27,27 @@ struct MyUniforms {
 // The texture binding
 @group(0) @binding(1) var gradientTexture: texture_2d<f32>;
 
+@group(0) @binding(2) var textureSampler: sampler;
+
 @vertex
 fn vs_main(in: VertexInput) -> VertexOutput {
 	var out: VertexOutput;
 	out.position = uMyUniforms.projectionMatrix * uMyUniforms.viewMatrix * uMyUniforms.modelMatrix * vec4f(in.position, 1.0);
     out.normal = (uMyUniforms.modelMatrix * vec4f(in.normal, 0.0)).xyz;
 	out.color = in.color;
-	out.uv = in.uv;
+	out.uv = in.uv * 6.0;
 	return out;
 }
 
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4f {
 	// We remap UV coords to actual texel coordinates
-	let texelCoords = vec2i(in.uv * vec2f(textureDimensions(gradientTexture)));
+	// let texelCoords = vec2i(in.uv * vec2f(textureDimensions(gradientTexture)));
 	
 	// And we fetch a texel from the texture
-	let color = textureLoad(gradientTexture, texelCoords, 0).rgb;
+	// let color = textureLoad(gradientTexture, texelCoords, 0).rgb;
+
+  let color = textureSample(gradientTexture, textureSampler, in.uv).rgb;
 
 	// Gamma-correction
 	let corrected_color = pow(color, vec3f(2.2));
